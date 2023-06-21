@@ -84,6 +84,9 @@ namespace Task_Manager.Controllers
             }
         }
 
+
+
+
         private string GenerateJwtToken(string email, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

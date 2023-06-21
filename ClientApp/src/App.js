@@ -12,8 +12,12 @@ import Dashboard from './Pages/Dashboard';
 import Add_task from './Pages/Add_task';
 import Completed_task from './Pages/Completed_task';
 import { Toaster } from 'react-hot-toast';
+import ProtectedRoute from "./Route/AppRoutes"
+
+
 
 function App() {
+
 
     return (
 
@@ -23,12 +27,13 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-
-                <Route path="home" element={<Home />} >
-                    <Route path='/home' element={<Dashboard />} />
-                    <Route path='todo' element={<To_do />} />
-                    <Route path='add_task' element={<Add_task />} />
-                    <Route path='completed_task' element={<Completed_task />} />
+                <Route element={ <ProtectedRoute/> }>
+                    <Route path="home" element={<Home />} >
+                        <Route path='/home' element={<Dashboard />} />
+                        <Route path='todo' element={<To_do />} />
+                        <Route path='add_task' element={<Add_task />} />
+                        <Route path='completed_task' element={<Completed_task />} />
+                    </Route>
                 </Route>
 
             </Routes>

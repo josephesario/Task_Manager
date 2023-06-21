@@ -3,6 +3,9 @@ import AddTask from "../Pages/Add_task"
 import To_do from "../Pages/To_do"
 import Home from "../Pages/Home"
 import Login from "../Pages/Login"
+import isAuthenticated from "../ApiRcontrol/Authentication"
+import { useNavigate, Outlet } from "react-router-dom"
+
 
 const AppRoutes = [
     {
@@ -27,4 +30,23 @@ const AppRoutes = [
     }
 ];
 
-export default AppRoutes;
+
+function ProtectedRoute() {
+
+    const navigate = useNavigate()
+
+    if (isAuthenticated()) {
+
+        return (
+            <Outlet/>
+        )
+    }
+
+    else {
+        return (
+            <Login/>
+            )
+    }
+}
+
+export default  ProtectedRoute  ;

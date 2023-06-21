@@ -1,7 +1,19 @@
 ﻿import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {useNavigate } from "react-router-dom"
+
 
 function Navbar() {
+
+    const navigate = useNavigate()
+
+    function logout() {
+        localStorage.removeItem("token")
+
+        window.location.reload()
+    }
+
+
     return (
         <nav className="py-2 bg-light topNav border-bottom">
             <div className="container d-flex flex-wrap">
@@ -28,8 +40,8 @@ function Navbar() {
                     </li>
                 </ul>
                 <ul className="nav">
-                    <li className="nav-item">
-                        <a href="/" className="nav-link link-dark px-2">
+                    <li className="nav-item" onClick={ logout }>
+                        <a className="nav-link link-dark px-2">
                             LogOut
                         </a>
                     </li>
