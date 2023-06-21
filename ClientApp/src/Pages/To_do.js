@@ -2,6 +2,7 @@
 import '../style/style.css';
 import GetAllTaskApiRcontrol from '../ApiRcontrol/GetAllTaskApiRcontrol';
 import deleteTask from '../ApiRcontrol/DeleteTaskApiRcontrol';
+import UpdateTask from '../ApiRcontrol/UpdateTaskApiRcontrol';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast"
 
@@ -16,12 +17,26 @@ function TaskCard() {
 
         deleteTask(name).then((res) => {
 
+            window.location.reload()
             setTimeout(() => {
                 toast.success("task deleted successfully")
             }, 500)
-            navigate("/Home")
         }).catch((err) => console.log(err))
     }
+
+
+
+    const onUpdate = (name) => {
+
+        UpdateTask(name).then((res) => {
+
+            window.location.reload()
+            setTimeout(() => {
+                toast.success("task Updated successfully")
+            }, 500)
+        }).catch((err) => console.log(err))
+    }
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +70,7 @@ function TaskCard() {
                                         <p className="card-text">{task.description}</p>
                                         <p className="card-text">Added By: {task.email}</p>
                                         <button className="btn4 btn-danger" onClick={() => onDelete(task.name)}>Delete</button>
-                                        <button className="btn2 btn-danger">Completed</button>
+                                        <button className="btn2 btn-danger" onClick={() => onUpdate(task.name)}>Completed</button>
                                     </div>
                                 </div>
 

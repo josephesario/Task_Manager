@@ -2,6 +2,7 @@
 import '../style/style.css';
 import GetAllTaskApiRcontrol from '../ApiRcontrol/GetAllTaskApiRcontrol';
 import deleteTask from '../ApiRcontrol/DeleteTaskApiRcontrol';
+import UpdateTask from '../ApiRcontrol/UpdateTaskApiRcontrol';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast"
 
@@ -18,6 +19,18 @@ function CompletedTask() {
             window.location.reload()
             setTimeout(() => {
                 toast.success("task deleted successfully")
+            }, 500)
+        }).catch((err) => console.log(err))
+    }
+
+
+    const onUpdate = (name) => {
+
+        UpdateTask(name).then((res) => {
+
+            window.location.reload()
+            setTimeout(() => {
+                toast.success("task Updated successfully")
             }, 500)
         }).catch((err) => console.log(err))
     }

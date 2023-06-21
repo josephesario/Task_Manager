@@ -108,19 +108,27 @@ namespace Task_Manager.Controllers
 
 
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateTask(string Name, [FromBody] TTask task)
+        [HttpPatch("UpdateTask/{Name}")]
+        public IActionResult UpdateTask(string Name)
         {
-            if (Name != task.Name)
+            if (Name == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(task).State = EntityState.Modified;
+            var existingTask = _context.TTasks.FirstOrDefault(t => t.Name == Name);
+
+            if (existingTask == null)
+            {
+                return NotFound();
+            }
 
             try
             {
+                existingTask.Status = false; // Set the status to false
                 _context.SaveChanges();
+
+                return NoContent(); // 204 No Content
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -133,8 +141,6 @@ namespace Task_Manager.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         [HttpDelete("DeleteTask/{Name}")]

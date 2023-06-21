@@ -26,7 +26,7 @@ async function AddTaskApiRcontrol(state) {
         });
 
         if (response.status === 409) {
-            toast.error("Email Already Exist");
+            toast.error("Task Already Exist");
             return;
         }
 

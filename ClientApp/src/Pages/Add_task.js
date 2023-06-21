@@ -20,6 +20,7 @@ function TaskForm() {
         e.preventDefault();
         try {
             await AddTaskApiRcontrol(formData);
+            window.location.reload()
             // Reset the form after successful submission if needed
             setFormData({
                 Name: '',
