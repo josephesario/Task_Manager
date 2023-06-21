@@ -1,9 +1,27 @@
 ﻿import React, { useState, useEffect } from 'react';
 import '../style/style.css';
 import GetAllTaskApiRcontrol from '../ApiRcontrol/GetAllTaskApiRcontrol';
+import deleteTask from '../ApiRcontrol/DeleteTaskApiRcontrol';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast"
+
 
 function TaskCard() {
     const [tasks, setTasks] = useState([]);
+
+    const navigate = useNavigate()
+
+
+    const onDelete = (name) => {
+
+        deleteTask(name).then((res) => {
+
+            setTimeout(() => {
+                toast.success("task deleted successfully")
+            }, 500)
+            navigate("/Home")
+        }).catch((err) => console.log(err))
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +39,7 @@ function TaskCard() {
         fetchData();
     }, []);
 
+
     return (
         <div className="container card-container33">
             <div className="card-container">
@@ -30,15 +49,16 @@ function TaskCard() {
                         tasks
                             .filter((task) => task.status) // Filter tasks with status = true
                             .map((task) => (
-                                <div className="card shadow-sm" key={task.name}>
+                              <div className="card shadow-sm" key={task.name}>
                                     <div className="card-body">
                                         <h5 className="card-title">{task.name}</h5>
                                         <p className="card-text">{task.description}</p>
                                         <p className="card-text">Added By: {task.email}</p>
-                                        <button className="btn4 btn-danger">Delete</button>
+                                        <button className="btn4 btn-danger" onClick={() => onDelete(task.name)}>Delete</button>
                                         <button className="btn2 btn-danger">Completed</button>
                                     </div>
                                 </div>
+
                             ))}
                 </div>
             </div>

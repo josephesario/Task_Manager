@@ -137,20 +137,33 @@ namespace Task_Manager.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteTask/{Name}")]
         public IActionResult DeleteTask(string Name)
         {
             var task = _context.TTasks.FirstOrDefault(t => t.Name == Name);
 
             if (task == null)
             {
-                return NotFound();
+                return NotFound("Task not found");
             }
 
-            _context.TTasks.Remove(task);
-            _context.SaveChanges();
+            try
+            {
+                _context.TTasks.Remove(task);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent(); // 204 No Content
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it according to your needs
+                Console.WriteLine(ex);
+
+                return StatusCode(500, "An error occurred while deleting the task"); // 500 Internal Server Error
+            }
         }
+
+
+
     }
 }

@@ -14,7 +14,7 @@ async function AddTaskApiRcontrol(state) {
         const email = decodedToken?.email
 
         state.Email = email;
-        state.StatusId = 0;
+        state.Status = true;
 
 
         const response = await fetch("/api/Task/CreateTask", {

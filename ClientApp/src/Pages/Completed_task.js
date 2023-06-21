@@ -1,9 +1,27 @@
 ﻿import React, { useState, useEffect } from 'react';
 import '../style/style.css';
 import GetAllTaskApiRcontrol from '../ApiRcontrol/GetAllTaskApiRcontrol';
+import deleteTask from '../ApiRcontrol/DeleteTaskApiRcontrol';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast"
+
+
+
 
 function CompletedTask() {
     const [tasks, setTasks] = useState([]);
+
+    const onDelete = (name) => {
+
+        deleteTask(name).then((res) => {
+
+            window.location.reload()
+            setTimeout(() => {
+                toast.success("task deleted successfully")
+            }, 500)
+        }).catch((err) => console.log(err))
+    }
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +53,7 @@ function CompletedTask() {
                                         <h5 className="card-title">{task.name}</h5>
                                         <p className="card-text">{task.description}</p>
                                         <p className="card-text">Added By: {task.email}</p>
-                                        <button className="btn4 btn-danger">Delete</button>
+                                        <button className="btn4 btn-danger" onClick={() => onDelete(task.name)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
