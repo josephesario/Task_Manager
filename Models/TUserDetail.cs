@@ -22,7 +22,4 @@ public partial class TUserDetail
 
     [InverseProperty("EmailNavigation")]
     public virtual ICollection<TTaskStatus> TTaskStatuses { get; set; } = new List<TTaskStatus>();
-
-    [InverseProperty("EmailNavigation")]
-    public virtual ICollection<TTask> TTasks { get; set; } = new List<TTask>();
 }

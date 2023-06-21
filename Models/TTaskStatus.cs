@@ -10,9 +10,6 @@ namespace Task_Manager.Models;
 public partial class TTaskStatus
 {
     [Key]
-    [Column("status_Id")]
-    public int StatusId { get; set; }
-
     [Column("status")]
     public bool Status { get; set; }
 
@@ -26,7 +23,4 @@ public partial class TTaskStatus
     [ForeignKey("Email")]
     [InverseProperty("TTaskStatuses")]
     public virtual TUserDetail EmailNavigation { get; set; } = null!;
-
-    [InverseProperty("Status")]
-    public virtual ICollection<TTask> TTasks { get; set; } = new List<TTask>();
 }

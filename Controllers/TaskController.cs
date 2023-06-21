@@ -20,37 +20,25 @@ namespace Task_Manager.Controllers
             _context = context;
         }
 
+
+
         [HttpGet("GetAllTask")]
         public IActionResult GetAllTask()
         {
             try
             {
-                var tasks = _context.TTasks.Include(t => t.Status).Include(t => t.EmailNavigation).ToList();
-
-                // Extract foreign key names
-                var statusForeignKeyName = _context.Model.FindEntityType(typeof(TTask)).FindNavigation(nameof(TTask.Status)).ForeignKey.Properties.Single().Name;
-                var emailForeignKeyName = _context.Model.FindEntityType(typeof(TTask)).FindNavigation(nameof(TTask.EmailNavigation)).ForeignKey.Properties.Single().Name;
+                var tasks = _context.TTasks.ToList();
 
                 var result = tasks.Select(task => new
                 {
-                    task.Id,
                     task.Name,
                     task.Description,
-                    Status = new
-                    {
-                        task.Status.StatusId,
-                        task.Status.Status,
-                        task.Status.CreatedOn
-                    },
-                    Email = new
-                    {
-                        task.EmailNavigation.Email,
-                        task.EmailNavigation.Password,
-                        task.EmailNavigation.CreatedOn
-                    }
+                    task.Email,
+                    task.Status
+
                 }).ToList();
 
-                return Ok(new { Tasks = result, StatusForeignKeyName = statusForeignKeyName, EmailForeignKeyName = emailForeignKeyName });
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -60,18 +48,7 @@ namespace Task_Manager.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public IActionResult GetTask(int id)
-        {
-            var task = _context.TTasks.FirstOrDefault(t => t.Id == id);
 
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(task);
-        }
 
 
         [HttpPost("CreateTask")]
@@ -84,10 +61,17 @@ namespace Task_Manager.Controllers
                     return BadRequest(ModelState);
                 }
 
+                // Check if the task name already exists in the database
+                bool doesTaskExist = _context.TTasks.Any(t => t.Name == task.Name);
+                if (doesTaskExist)
+                {
+                    return Conflict("Task name already exists.");
+                }
+
                 _context.TTasks.Add(task);
                 _context.SaveChanges();
 
-                return CreatedAtAction("GetTask", new { id = task.Id }, task);
+                return CreatedAtAction("GetTask", new { Name = task.Name }, task);
             }
             catch (Exception ex)
             {
@@ -105,10 +89,29 @@ namespace Task_Manager.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateTask(int id, [FromBody] TTask task)
+
+
+
+        [HttpGet("{id}")]
+        public IActionResult GetTask(string Name)
         {
-            if (id != task.Id)
+            var task = _context.TTasks.FirstOrDefault(t => t.Name == Name);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(task);
+        }
+
+
+
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTask(string Name, [FromBody] TTask task)
+        {
+            if (Name != task.Name)
             {
                 return BadRequest();
             }
@@ -121,7 +124,7 @@ namespace Task_Manager.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.TTasks.Any(t => t.Id == id))
+                if (!_context.TTasks.Any(t => t.Name == Name))
                 {
                     return NotFound();
                 }
@@ -135,9 +138,9 @@ namespace Task_Manager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteTask(int id)
+        public IActionResult DeleteTask(string Name)
         {
-            var task = _context.TTasks.FirstOrDefault(t => t.Id == id);
+            var task = _context.TTasks.FirstOrDefault(t => t.Name == Name);
 
             if (task == null)
             {

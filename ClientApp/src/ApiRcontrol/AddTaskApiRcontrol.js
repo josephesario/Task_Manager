@@ -1,7 +1,22 @@
 ﻿import { toast } from 'react-hot-toast';
+import jwtDecode from 'jwt-decode'
 
 async function AddTaskApiRcontrol(state) {
     try {
+
+
+        const token = localStorage.getItem('token')
+
+        // Assuming you have the JWT token stored in a variable called 'token'
+        const decodedToken = jwtDecode(token);
+
+        // Retrieve the email from the decoded token
+        const email = decodedToken?.email
+
+        state.Email = email;
+        state.StatusId = 0;
+
+
         const response = await fetch("/api/Task/CreateTask", {
             method: "post",
             headers: {
@@ -15,16 +30,18 @@ async function AddTaskApiRcontrol(state) {
             return;
         }
 
-        if (response.status === 400) {
-            toast.error("All fields required");
-            return;
-        }
-
         const data = await response.text();
-        toast.success(data);
+        toast.success("task added successfully");
+
     } catch (error) {
         console.log("error", error);
     }
 }
 
 export { AddTaskApiRcontrol };
+
+
+
+/*
+
+*/

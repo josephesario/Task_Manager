@@ -20,40 +20,25 @@ public partial class taskManagerDbContext : DbContext
     public virtual DbSet<TTaskStatus> TTaskStatuses { get; set; }
 
     public virtual DbSet<TUserDetail> TUserDetails { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json") // Adjust the file name if necessary
+            .Build();
 
-            string connectionString = configuration.GetConnectionString("taskManagerDbContext");
-
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("taskManagerDbContext"));
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TTask>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__t_Task__3214EC070389C6A2");
-
-            entity.HasOne(d => d.EmailNavigation).WithMany(p => p.TTasks)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_UserDetails_id");
-
-            entity.HasOne(d => d.Status).WithMany(p => p.TTasks)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_status_id");
+            entity.HasKey(e => e.Name).HasName("PK__t_Task__737584F7A1712A6A");
         });
 
         modelBuilder.Entity<TTaskStatus>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__t_Task_s__3680B91963894F4B");
+            entity.HasKey(e => e.Status).HasName("PK__t_Task_s__A858923D12BE16C4");
 
             entity.HasOne(d => d.EmailNavigation).WithMany(p => p.TTaskStatuses)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -62,7 +47,7 @@ public partial class taskManagerDbContext : DbContext
 
         modelBuilder.Entity<TUserDetail>(entity =>
         {
-            entity.HasKey(e => e.Email).HasName("PK__t_UserDe__AB6E61659E4A5F67");
+            entity.HasKey(e => e.Email).HasName("PK__t_UserDe__AB6E616561E5571E");
         });
 
         OnModelCreatingPartial(modelBuilder);

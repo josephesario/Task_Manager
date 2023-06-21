@@ -19,7 +19,6 @@ namespace Task_Manager.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("GetAllstatusTask")]
         public IActionResult GetAllstatusTask()
         {
@@ -28,10 +27,9 @@ namespace Task_Manager.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult GetTaskStatus(int id)
+        public IActionResult GetTaskStatus(bool Status)
         {
-            var taskStatus = _context.TTaskStatuses.FirstOrDefault(t => t.StatusId == id);
+            var taskStatus = _context.TTaskStatuses.FirstOrDefault(t => t.Status == Status);
 
             if (taskStatus == null)
             {
@@ -42,7 +40,6 @@ namespace Task_Manager.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult CreateTaskStatus([FromBody] TTaskStatus taskStatus)
         {
             if (!ModelState.IsValid)
@@ -53,14 +50,13 @@ namespace Task_Manager.Controllers
             _context.TTaskStatuses.Add(taskStatus);
             _context.SaveChanges();
 
-            return CreatedAtAction("GetTaskStatus", new { id = taskStatus.StatusId }, taskStatus);
+            return CreatedAtAction("GetTaskStatus", new { Status = taskStatus.Status }, taskStatus);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult UpdateTaskStatus(int id, [FromBody] TTaskStatus taskStatus)
+        public IActionResult UpdateTaskStatus(bool Status, [FromBody] TTaskStatus taskStatus)
         {
-            if (id != taskStatus.StatusId)
+            if (Status != taskStatus.Status)
             {
                 return BadRequest();
             }
@@ -73,7 +69,7 @@ namespace Task_Manager.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.TTaskStatuses.Any(t => t.StatusId == id))
+                if (!_context.TTaskStatuses.Any(t => t.Status == Status))
                 {
                     return NotFound();
                 }
@@ -87,10 +83,9 @@ namespace Task_Manager.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteTaskStatus(int id)
+        public IActionResult DeleteTaskStatus(bool Status)
         {
-            var taskStatus = _context.TTaskStatuses.FirstOrDefault(t => t.StatusId == id);
+            var taskStatus = _context.TTaskStatuses.FirstOrDefault(t => t.Status == Status);
 
             if (taskStatus == null)
             {

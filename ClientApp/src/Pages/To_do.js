@@ -2,8 +2,6 @@
 import '../style/style.css';
 import GetAllTaskApiRcontrol from '../ApiRcontrol/GetAllTaskApiRcontrol';
 
-
-
 function TaskCard() {
     const [tasks, setTasks] = useState([]);
 
@@ -12,8 +10,8 @@ function TaskCard() {
             try {
                 const response = await GetAllTaskApiRcontrol();
                 console.log(response);
-                if (response && response.tasks) {
-                    setTasks(response.tasks);
+                if (response && response.length > 0) {
+                    setTasks(response);
                 }
             } catch (error) {
                 console.log("Error fetching tasks:", error);
@@ -28,22 +26,20 @@ function TaskCard() {
             <div className="card-container">
                 <h1 className="title">Pending</h1>
                 <div className="task-grid">
-                    {tasks && tasks.map((task) => {
-                        if (task.status.status) {
-                            return (
-                                <div className="card shadow-sm" key={task.id}>
+                    {tasks &&
+                        tasks
+                            .filter((task) => task.status) // Filter tasks with status = true
+                            .map((task) => (
+                                <div className="card shadow-sm" key={task.name}>
                                     <div className="card-body">
                                         <h5 className="card-title">{task.name}</h5>
                                         <p className="card-text">{task.description}</p>
-                                        <p className="card-text">Added By: {task.email.email}</p>
+                                        <p className="card-text">Added By: {task.email}</p>
                                         <button className="btn4 btn-danger">Delete</button>
                                         <button className="btn2 btn-danger">Completed</button>
                                     </div>
                                 </div>
-                            );
-                        }
-                        return null; // If task.status.status is false, don't render the card
-                    })}
+                            ))}
                 </div>
             </div>
         </div>
