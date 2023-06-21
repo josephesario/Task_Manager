@@ -1,0 +1,322 @@
+﻿.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 1rem;
+}
+
+body {
+    background-color: #f2f2f2;
+    font-family: 'Cascadia Mono';
+    letter-spacing: 1px;
+}
+
+/* Add animation to the body */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply the animation to the body */
+body {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Style for the card component */
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+
+    padding: 16px;
+    margin-bottom: 16px;
+
+}
+
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.btn {
+    background-color: #0056b3;
+    color: #fff;
+    padding: 8px 16px;
+    margin-top:10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+
+.btn2 {
+    background-color: #257a44;
+    color: #fff;
+    padding: 8px 16px;
+    margin-right: 3px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn2:hover {
+    background-color: #257a44;
+}
+
+
+
+.btn3 {
+    background-color: #db9b28;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    margin-right: 3px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn4 {
+    background-color: #ef2a23;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    margin-right: 3px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/*Navbar Title--*/
+.taskTitle {
+ 
+    font-size: 20px; 
+    color: #323232; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+    font-family: 'Cascadia Mono'; 
+    
+}
+
+/*top navbar*/
+.topNav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+.nav-link {
+    text-decoration: none;
+    padding: 10px;
+    color: #000;
+}
+
+    .nav-link:hover {
+        background-color: #ccc;
+    }
+
+.active {
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+}
+
+/*adding task form*/
+
+.task-form {
+    background-color: #f8f9fa; /* Set a nice background color */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: slideIn 0.5s ease; /* Add a sliding animation */
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*Card scroll*/
+.card-container33 {
+    max-height: 500px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid ;
+    border-radius:10px;
+    background-color:white;
+    animation: borderAnimation 5s infinite linear;
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-color: #ff9900;
+    }
+
+    25% {
+        border-color: #ff00cc;
+    }
+
+    50% {
+        border-color: #00ccff;
+    }
+
+    75% {
+        border-color: #00ff99;
+    }
+
+    100% {
+        border-color: #ff9900;
+    }
+}
+
+.title2 {
+    font-size: 25px;
+    font-weight: bold;
+    text-align:center;
+    color: #ff9900;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    animation: colorAnimation1 5s infinite alternate, typingAnimation1 2s steps(40) 1s 1 normal both;
+    font-family: Geneva, Verdana, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #ff9900;
+}
+
+@keyframes colorAnimation1 {
+    0% {
+        color: #493821;
+    }
+
+    25% {
+        color: #351634;
+    }
+
+    50% {
+        color: #193637;
+    }
+
+    75% {
+        color: #257a44;
+    }
+
+    100% {
+        color: #6c4919;
+    }
+}
+
+@keyframes typingAnimation1 {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+
+
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #ff9900;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    animation: colorAnimation 5s infinite alternate, typingAnimation 2s steps(40) 1s 1 normal both;
+    font-family: Geneva, Verdana, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #ff9900;
+}
+
+@keyframes colorAnimation {
+    0% {
+        color: #493821;
+    }
+
+    25% {
+        color: #351634;
+    }
+
+    50% {
+        color: #193637;
+    }
+
+    75% {
+        color: #257a44;
+    }
+
+    100% {
+        color: #6c4919;
+    }
+}
+
+@keyframes typingAnimation {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 20%;
+    }
+}
+
