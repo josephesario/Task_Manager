@@ -19,7 +19,4 @@ public partial class TUserDetail
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
-
-    [InverseProperty("EmailNavigation")]
-    public virtual ICollection<TTaskStatus> TTaskStatuses { get; set; } = new List<TTaskStatus>();
 }

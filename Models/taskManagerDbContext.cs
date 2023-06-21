@@ -17,9 +17,8 @@ public partial class taskManagerDbContext : DbContext
 
     public virtual DbSet<TTask> TTasks { get; set; }
 
-    public virtual DbSet<TTaskStatus> TTaskStatuses { get; set; }
-
     public virtual DbSet<TUserDetail> TUserDetails { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -29,25 +28,17 @@ public partial class taskManagerDbContext : DbContext
 
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("taskManagerDbContext"));
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TTask>(entity =>
         {
-            entity.HasKey(e => e.Name).HasName("PK__t_Task__737584F7A1712A6A");
-        });
-
-        modelBuilder.Entity<TTaskStatus>(entity =>
-        {
-            entity.HasKey(e => e.Status).HasName("PK__t_Task_s__A858923D12BE16C4");
-
-            entity.HasOne(d => d.EmailNavigation).WithMany(p => p.TTaskStatuses)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Task_status_UserDetails_id");
+            entity.HasKey(e => e.Id).HasName("PK__t_Task__3214EC07BCEA58F5");
         });
 
         modelBuilder.Entity<TUserDetail>(entity =>
         {
-            entity.HasKey(e => e.Email).HasName("PK__t_UserDe__AB6E616561E5571E");
+            entity.HasKey(e => e.Email).HasName("PK__t_UserDe__AB6E61653E3264A4");
         });
 
         OnModelCreatingPartial(modelBuilder);

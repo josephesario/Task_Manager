@@ -1,13 +1,20 @@
-﻿async function GetAllTaskApiRcontrol(state) {
-    const tok = localStorage.getItem("token");
-    console.log(tok);
+﻿import jwtDecode from 'jwt-decode'
+
+async function GetAllTaskApiRcontrol() {
+
+
+    const token = localStorage.getItem('token')
+
+    // Assuming you have the JWT token stored in a variable called 'token'
+    const decodedToken = jwtDecode(token);
+
+    // Retrieve the email from the decoded token
+    const Email = decodedToken?.email
+
 
     try {
-        const response = await fetch("/api/Task/GetAllTask", {
-            headers: {
-                Authorization: `Bearer ${tok}`,
-            },
-        });
+
+        const response = await fetch(`/api/Task/GetAllTask/${Email}`);
 
         if (!response.ok) {
             throw new Error('Request failed');

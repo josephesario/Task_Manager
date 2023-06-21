@@ -22,12 +22,12 @@ namespace Task_Manager.Controllers
 
 
 
-        [HttpGet("GetAllTask")]
-        public IActionResult GetAllTask()
+        [HttpGet("GetAllTask/{Email}")]
+        public IActionResult GetAllTask(string Email)
         {
             try
             {
-                var tasks = _context.TTasks.ToList();
+                var tasks = _context.TTasks.Where( t => t.Email == Email).ToList();
 
                 var result = tasks.Select(task => new
                 {
@@ -62,7 +62,9 @@ namespace Task_Manager.Controllers
                 }
 
                 // Check if the task name already exists in the database
-                bool doesTaskExist = _context.TTasks.Any(t => t.Name == task.Name);
+                bool doesTaskExist = _context.TTasks.Any(t => t.Name == task.Name && t.Email == task.Email);
+
+
                 if (doesTaskExist)
                 {
                     return Conflict("Task name already exists.");

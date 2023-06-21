@@ -10,6 +10,8 @@ namespace Task_Manager.Models;
 public partial class TTask
 {
     [Key]
+    public int Id { get; set; }
+
     [StringLength(120)]
     public string Name { get; set; } = null!;
 
