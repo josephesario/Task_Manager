@@ -19,6 +19,10 @@ async function RegisterApiRcontrol(state) {
             toast.error("All fields required");
             return;
         }
+        if (response.status === 500) {
+            toast.error("Something Went Wrong");
+            return;
+        }
 
         const data = await response.text();
         toast.success(data);
